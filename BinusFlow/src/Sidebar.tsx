@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 
 // Import Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -64,14 +64,11 @@ export default function Sidebar() {
         <ul className="nav flex-column gap-3">
           <li className="nav-item d-flex align-items-center gap-2">
             <i className="bi bi-house fs-4"></i>
-            {!collapsed && <span>Dashboard</span>}
+            {!collapsed && <span><Link to="/">Dashboard</Link></span>}
           </li>
-
-    
-
           <li className="nav-item d-flex align-items-center gap-2">
             <i className="bi bi-gear fs-4"></i>
-            {!collapsed && <span>Configurations</span>}
+            {!collapsed && <span><Link to="/configuration">Configurations</Link></span>}
           </li>
         </ul>
       </div>

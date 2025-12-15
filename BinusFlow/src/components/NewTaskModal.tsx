@@ -1,10 +1,12 @@
 import React from "react";
+
 interface Props {
   onCancel: () => void;
   onSave: () => void;
+  colors: String[];
 }
 
-const ModalContent: React.FC<Props> = ({onCancel, onSave}) => {
+const ModalContent: React.FC<Props> = ({colors, onCancel, onSave}) => {
   return (
     <div className="text-white row">
       <div className="d-flex justify-content-end">
@@ -23,9 +25,32 @@ const ModalContent: React.FC<Props> = ({onCancel, onSave}) => {
           <option>In Progress</option>
           <option>Done</option>
         </select>
-       
-      </div>
+       <div className="m-1 mt-2" 
+          style={{ backgroundColor: colors[0] as string, width: "22px", height: "22px", borderRadius: "5%" }}
+          onClick={()=> {
 
+          }}
+        >
+       </div>
+      </div>
+      <div className="w-100">
+          <div className="d-flex gap-2">
+            {colors.map((col, index) => (
+              <div
+                key={index}
+                className="rounded"
+                style={{
+                  backgroundColor: col as string,
+                  width: "22px",
+                  height: "22px",
+                  borderRadius: "5%",
+                  cursor: "pointer",
+                  border: "2px solid #000",
+                }}
+              />
+            ))}
+          </div>
+      </div>
       <label className="w-100 text-start">Title</label>
       <input className="p-2 rounded w-full text-black my-2" />
 
@@ -45,6 +70,7 @@ const ModalContent: React.FC<Props> = ({onCancel, onSave}) => {
           Save
         </button>
       </div>
+      
     </div>
   );
 };

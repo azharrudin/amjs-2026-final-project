@@ -1,11 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import {BrowserRouter} from "react-router-dom";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-   
-  </StrictMode>,
-)
+import {createRoot} from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+import React from "react";
+import {ColorsProvider} from "./types/colors.context.tsx";
+
+createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <ColorsProvider>
+        <App />
+      </ColorsProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);

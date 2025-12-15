@@ -1,14 +1,15 @@
 import React from "react";
 
 interface Props {
+  data: { status: "To Do" | "In Progress" | "Done"; title: string; description: string };
   onCancel: () => void;
-  onSave: (data: { status: string; title: string; description: string }) => void;
+  onSave: (data: { status: "To Do" | "In Progress" | "Done"; title: string; description: string }) => void;
 }
 
-const UpdateModalContent: React.FC<Props> = ({ onCancel, onSave }) => {
-  const [status, setStatus] = React.useState<"To Do" | "In Progress" | "Done">("To Do");
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
+const UpdateModalContent: React.FC<Props> = ({ data, onCancel, onSave }) => {
+  const [status, setStatus] = React.useState<"To Do" | "In Progress" | "Done">(data.status);
+  const [title, setTitle] = React.useState(data.title);
+  const [description, setDescription] = React.useState(data.description);
 
   return (
     <div className="text-white row">
