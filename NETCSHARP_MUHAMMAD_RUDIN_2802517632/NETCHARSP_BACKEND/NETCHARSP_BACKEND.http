@@ -1,0 +1,6 @@
+@NETCHARSP_BACKEND_HostAddress = http://localhost:5189
+
+GET {{NETCHARSP_BACKEND_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
