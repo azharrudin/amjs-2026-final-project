@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace NETCHARSP_BACKEND.Models.DTO
+{
+    public class GetAvailableCarRequest : IValidatableObject
+    {
+        [Required]
+        public DateTimeOffset StartDate { get; set; }
+
+        [Required]
+        public DateTimeOffset EndDate { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (EndDate < StartDate)
+            {
+                yield return new ValidationResult(
+                    "EndDate must be the same as or later than StartDate.",
+                    new[] { nameof(StartDate), nameof(EndDate) }
+                );
+            }
+        }
+    }
+}

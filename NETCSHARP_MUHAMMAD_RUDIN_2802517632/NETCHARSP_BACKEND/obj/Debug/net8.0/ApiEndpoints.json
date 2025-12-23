@@ -1,0 +1,71 @@
+[
+  {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Transactions.GetAvailableCars",
+    "Method": "GetAvailableCarsList",
+    "RelativePath": "api/v1/cars/available",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NETCHARSP_BACKEND.Models.DTO.GetAvailableCarRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Auth.LoginController",
+    "Method": "Login",
+    "RelativePath": "api/v1/login/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NETCHARSP_BACKEND.Models.DTO.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Auth.RegisterController",
+    "Method": "register",
+    "RelativePath": "api/v1/register/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NETCHARSP_BACKEND.Models.DTO.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.WeatherForecastController",
+    "Method": "Get",
+    "RelativePath": "WeatherForecast",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NETCHARSP_BACKEND.WeatherForecast, NETCHARSP_BACKEND, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetWeatherForecast"
+  }
+]
