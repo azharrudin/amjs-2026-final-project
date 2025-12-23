@@ -38,4 +38,5 @@ namespace NETCHARSP_BACKEND.Models
         [ForeignKey(nameof(CarId))]
         public MsCar? Car { get; set; }
     }
+
 }

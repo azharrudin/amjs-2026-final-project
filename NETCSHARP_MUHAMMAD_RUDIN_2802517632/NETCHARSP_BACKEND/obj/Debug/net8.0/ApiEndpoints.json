@@ -1,5 +1,63 @@
 [
   {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Auth.LoginController",
+    "Method": "Login",
+    "RelativePath": "api/v1/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NETCHARSP_BACKEND.Models.DTO.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Auth.RegisterController",
+    "Method": "register",
+    "RelativePath": "api/v1/auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NETCHARSP_BACKEND.Models.DTO.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Auth.ValidationController",
+    "Method": "Validate",
+    "RelativePath": "api/v1/auth/validation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "NETCHARSP_BACKEND.Persistence.JWT.TokenValidationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Boolean",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "NETCHARSP_BACKEND.Controllers.Transactions.GetAvailableCars",
     "Method": "GetAvailableCarsList",
     "RelativePath": "api/v1/cars/available",
@@ -16,32 +74,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NETCHARSP_BACKEND.Controllers.Auth.LoginController",
-    "Method": "Login",
-    "RelativePath": "api/v1/login/login",
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Transactions.AddRental",
+    "Method": "GetAvailableCarsList",
+    "RelativePath": "api/v1/rent",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "NETCHARSP_BACKEND.Models.DTO.LoginRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "NETCHARSP_BACKEND.Controllers.Auth.RegisterController",
-    "Method": "register",
-    "RelativePath": "api/v1/register/register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "NETCHARSP_BACKEND.Models.DTO.RegisterRequest",
+        "Type": "NETCHARSP_BACKEND.Models.DTO.RentRequest",
         "IsRequired": true
       }
     ],

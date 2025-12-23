@@ -1,0 +1,53 @@
+﻿@page
+@model NETCSHARP_FRONTEND.Pages.LoginModel
+@{
+}
+
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);min-height: 100vh;display: flex;align-items: center;justify-content: center;padding: 20px;}">
+
+    <div class="card">
+        <h1 class="title">Login ke RentCar</h1>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="label" for="username">Username</label>
+                <input type="text"
+                       id="username"
+                       class="input"
+                       placeholder="Masukkan username Anda"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label class="label" for="password">Password</label>
+                <input type="password"
+                       id="password"
+                       class="input"
+                       placeholder="Masukkan password Anda"
+                       required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+        <div class="text-center">
+            <span style="color: #6b5b8e; font-size: 14px;">Belum punya akun? </span>
+            <a href="#" class="link">Registrasi disini</a>
+        </div>
+    </div>
+ </body>
+ <script>
+    async function main(){
+        var jwt = new JWTManager();
+            var login = await jwt.login({
+              "email": "user@example.com",
+              "password": "string"
+            })
+           console.log(login)
+    }
+    window.onload = function(){
+    main()
+
+    }
+
+ </script>

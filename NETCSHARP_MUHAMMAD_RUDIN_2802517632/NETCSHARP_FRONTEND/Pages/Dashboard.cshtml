@@ -1,0 +1,148 @@
+﻿@page
+@model NETCSHARP_FRONTEND.Pages.DashboardModel
+@{
+}
+<!-- Header -->
+<header class="ds-header">
+    <div class="ds-header-left">
+        <button class="ds-menu-btn" onclick="toggleSidebar()">☰</button>
+        <div class="ds-logo">RentCar</div>
+    </div>
+    <div class="ds-header-right">
+        <button class="ds-btn-header ds-btn-login">Login</button>
+        <button class="ds-btn-header ds-btn-register">Registrasi</button>
+    </div>
+</header>
+
+<!-- Sidebar -->
+<div class="ds-sidebar" id="sidebar">
+    <div class="ds-sidebar-header">
+        <button class="ds-close-btn" onclick="toggleSidebar()">✕</button>
+    </div>
+    <ul class="ds-sidebar-menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Riwayat Penyewaan</a></li>
+        <li><a href="#">Kontak Kami</a></li>
+    </ul>
+</div>
+
+<!-- Overlay -->
+<div class="ds-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Hero -->
+<section class="ds-hero">
+    <h1>Selamat Datang di Rental Mobil Kami</h1>
+
+    <!-- Filter Section -->
+    <div class="ds-filter-section">
+        <div class="ds-filter-row">
+            <div class="ds-filter-group">
+                <label>Pickup Date:</label>
+                <input type="date" value="2024-10-16">
+            </div>
+            <div class="ds-filter-group">
+                <label>Return Date:</label>
+                <input type="date" value="2024-10-19">
+            </div>
+            <div class="ds-filter-group">
+                <label>Filter Tahun Pembuatan</label>
+                <select>
+                    <option>Semua Tahun</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                    <option>2021</option>
+                    <option>2020</option>
+                    <option>2019</option>
+                </select>
+            </div>
+            <div class="ds-filter-group" style="display: flex; align-items: flex-end;">
+                <button class="ds-btn-filter">Cari</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sort Section -->
+<div class="ds-sort-section">
+    <label>Sortir Berdasarkan</label>
+    <select>
+        <option>Harga Terendah - Tertinggi</option>
+        <option>Harga Tertinggi - Terendah</option>
+        <option>Tahun Terbaru</option>
+        <option>Tahun Terlama</option>
+    </select>
+</div>
+
+<!-- Car Grid -->
+<div class="ds-car-grid">
+    <div class="ds-car-card">
+        <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=400&h=300&fit=crop" alt="Daihatsu Alya" class="ds-car-image">
+        <div class="ds-car-info">
+            <div class="ds-car-name">Daihatsu Alya AT<br>2019</div>
+            <div class="ds-car-price">Harga: Rp. 300.000 / hari</div>
+            <button class="ds-btn-rent">Sewa Sekarang</button>
+        </div>
+    </div>
+
+    <div class="ds-car-card">
+        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop" alt="Honda HR-V" class="ds-car-image">
+        <div class="ds-car-info">
+            <div class="ds-car-name">Honda HR-V AT 2023</div>
+            <div class="ds-car-price">Harga: Rp. 900.000 / hari</div>
+            <button class="ds-btn-rent">Sewa Sekarang</button>
+        </div>
+    </div>
+
+    <div class="ds-car-card">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop" alt="Toyota Avanza" class="ds-car-image">
+        <div class="ds-car-info">
+            <div class="ds-car-name">Toyota Avanza MT<br>2023</div>
+            <div class="ds-car-price">Harga: Rp. 550.000 / hari</div>
+            <button class="ds-btn-rent">Sewa Sekarang</button>
+        </div>
+    </div>
+
+    <div class="ds-car-card">
+        <img src="https://images.unsplash.com/photo-1549927681-0b673b8243ab?w=400&h=300&fit=crop" alt="Car 4" class="ds-car-image">
+        <div class="ds-car-info">
+            <div class="ds-car-name">Mitsubishi Xpander<br>2022</div>
+            <div class="ds-car-price">Harga: Rp. 450.000 / hari</div>
+            <button class="ds-btn-rent">Sewa Sekarang</button>
+        </div>
+    </div>
+
+    <div class="ds-car-card">
+        <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop" alt="Car 5" class="ds-car-image">
+        <div class="ds-car-info">
+            <div class="ds-car-name">Suzuki Ertiga AT<br>2021</div>
+            <div class="ds-car-price">Harga: Rp. 400.000 / hari</div>
+            <button class="ds-btn-rent">Sewa Sekarang</button>
+        </div>
+    </div>
+
+    <div class="ds-car-card">
+        <img src="https://images.unsplash.com/photo-1583267746897-620dc02f6cd7?w=400&h=300&fit=crop" alt="Car 6" class="ds-car-image">
+        <div class="ds-car-info">
+            <div class="ds-car-name">Toyota Innova Reborn<br>2020</div>
+            <div class="ds-car-price">Harga: Rp. 650.000 / hari</div>
+            <button class="ds-btn-rent">Sewa Sekarang</button>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        sidebar.classList.toggle('ds-active');
+        overlay.classList.toggle('ds-active');
+    }
+
+    // Set default dates
+    const today = new Date();
+    const pickupDate = today.toISOString().split('T')[0];
+    const returnDate = new Date(today.setDate(today.getDate() + 3)).toISOString().split('T')[0];
+
+    document.querySelectorAll('input[type="date"]')[0].value = pickupDate;
+    document.querySelectorAll('input[type="date"]')[1].value = returnDate;
+</script>

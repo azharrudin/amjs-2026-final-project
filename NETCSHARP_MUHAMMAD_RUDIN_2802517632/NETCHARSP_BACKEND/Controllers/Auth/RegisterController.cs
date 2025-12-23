@@ -11,7 +11,7 @@ using NETCHARSP_BACKEND.Persistence;
 namespace NETCHARSP_BACKEND.Controllers.Auth
 {
     [ApiController]
-    [Route("/api/v1/register")]
+    [Route("/api/v1/auth")]
     public class RegisterController : ControllerBase
     {
         private readonly AppDBContext _context;

@@ -31,9 +31,9 @@ namespace NETCHARSP_BACKEND.Controllers.Transactions
                 return BadRequest(new { message = "StartDate must be earlier than or equal to EndDate." });
 
             var availableCars = _context.MsCar
-                        .Where(car => car.Status) // only active cars
+                        .Where(car => car.Status)
                         .Where(car => !car.Rentals.Any(r =>
-                            // overlap if rental.StartDate <= requested.EndDate && rental.EndDate >= requested.StartDate
+                           
                             r.RentalDate <= end && r.ReturnDate >= start
                         ))
                         .Select(car => new

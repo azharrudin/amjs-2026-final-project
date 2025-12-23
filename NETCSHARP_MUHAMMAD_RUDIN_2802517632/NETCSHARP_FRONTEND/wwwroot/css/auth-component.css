@@ -1,0 +1,113 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Card Container */
+.card {
+    background: linear-gradient(135deg, #e5d4f5 0%, #d4c5f0 100%);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #6b5b8e;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #7a6b9e;
+    margin-bottom: 8px;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input {
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #333;
+    background: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+    .input::placeholder {
+        color: #999;
+    }
+
+    .input:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(107, 91, 142, 0.2);
+    }
+
+/* Button */
+.btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ffccd5 0%, #ffa9b8 100%);
+    color: #fff;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 169, 184, 0.4);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+
+/* Text Link */
+.text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.link {
+    color: #6b5b8e;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+    .link:hover {
+        color: #8a7ab8;
+        text-decoration: underline;
+    }
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card {
+        padding: 30px 24px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+}
