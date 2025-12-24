@@ -8,7 +8,6 @@
     <div class="card">
         <h1 class="title">Login ke RentCar</h1>
 
-        <form id="loginForm">
             <div class="form-group">
                 <label class="label" for="username">Username</label>
                 <input type="text"
@@ -27,8 +26,7 @@
                        required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+            <button  class="btn btn-primary" onclick="okeGas()">Login</button>
 
         <div class="text-center">
             <span style="color: #6b5b8e; font-size: 14px;">Belum punya akun? </span>
@@ -37,17 +35,28 @@
     </div>
  </body>
  <script>
-    async function main(){
+    async function login(user, pass){
         var jwt = new JWTManager();
-            var login = await jwt.login({
-              "email": "user@example.com",
-              "password": "string"
-            })
-           console.log(login)
+        var login = await jwt.login({
+              "email": user,
+              "password": pass
+        })
+        console.log(login)
+        if(login["token"] != undefined){
+               window.location.href = '/dashboard'
+        }
+        else {
+            alert(
+               login["message"]
+            )
+        }
     }
-    window.onload = function(){
-    main()
-
+    function okeGas(){
+       var gas =  login(document.getElementById("username").value, document.getElementById("password").value)
+       if(gas.status == false){
+           alert('your session is expired')
+       }
+       
     }
 
  </script>

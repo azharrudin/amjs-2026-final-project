@@ -1,5 +1,5 @@
 ﻿class JWTManager {
-    constructor({ loginEndpoint = 'http://localhost:5189/api/v1/auth/login', validateEndpoint = '/validate', cookieName = 'jwt_token' } = {}) {
+    constructor({ loginEndpoint = 'http://localhost:5189/api/v1/auth/login', validateEndpoint = 'http://localhost:5189/api/v1/auth/validation', cookieName = 'jwt_token' } = {}) {
         this.loginEndpoint = loginEndpoint;
         this.validateEndpoint = validateEndpoint;
         this.cookieName = cookieName;
@@ -13,8 +13,8 @@
         });
 
         if (!res.ok) {
-            const text = await res.text();
-            throw new Error(`Login failed: ${res.status} ${text}`);
+            const json = await res.json();
+            return json
         }
 
         const ct = (res.headers.get('content-type') || '').toLowerCase();
@@ -29,18 +29,21 @@
 
     async validate() {
         const token = this._getCookie(this.cookieName);
-        const headers = {};
-        const init = { method: 'POST', credentials: 'same-origin' };
+        console.log(token)
+        const init = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
 
-        if (token) headers['Authorization'] = `Bearer ${token}`;
+            body: JSON.stringify({
+                token: token
+            })
+        };
 
-        init.headers = headers;
         const res = await fetch(this.validateEndpoint, init);
 
-        if (!res.ok) return { valid: false, status: res.status };
-
-        const json = await res.json().catch(() => null);
-        return { valid: json?.valid ?? true, payload: json?.payload ?? null, status: res.status };
+        if (!res.ok) return { valid: false, status: res.status, message: res.text() };
+        return { valid: true, status: res.status, message: res.text() };
+     
     }
 
     unsetCookie() {

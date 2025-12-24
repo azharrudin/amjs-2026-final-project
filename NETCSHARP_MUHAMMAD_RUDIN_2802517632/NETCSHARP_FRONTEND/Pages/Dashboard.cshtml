@@ -145,4 +145,10 @@
 
     document.querySelectorAll('input[type="date"]')[0].value = pickupDate;
     document.querySelectorAll('input[type="date"]')[1].value = returnDate;
+
+    var jew = new JWTManager();
+    let x =  jew.validate();
+    if(!x.valid){
+
+    }
 </script>
