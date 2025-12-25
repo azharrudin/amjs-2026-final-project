@@ -4,13 +4,16 @@
 }
 <!-- Header -->
 <header class="ds-header">
-    <div class="ds-header-left">
+    <div class="ds-header-left ">
         <button class="ds-menu-btn" onclick="toggleSidebar()">☰</button>
         <div class="ds-logo">RentCar</div>
     </div>
     <div class="ds-header-right">
-        <button class="ds-btn-header ds-btn-login">Login</button>
-        <button class="ds-btn-header ds-btn-register">Registrasi</button>
+        <button class="ds-btn-header ds-btn-login nav-button">Login</button>
+        <button class="ds-btn-header ds-btn-register nav-button">Registrasi</button>
+        <span id="sambutan" style="display: none;">
+            Hai 
+        </span>
     </div>
 </header>
 
@@ -38,11 +41,11 @@
         <div class="ds-filter-row">
             <div class="ds-filter-group">
                 <label>Pickup Date:</label>
-                <input type="date" value="2024-10-16">
+                <input type="date" value="2024-10-16" id="startdate">
             </div>
             <div class="ds-filter-group">
                 <label>Return Date:</label>
-                <input type="date" value="2024-10-19">
+                <input type="date" value="2024-10-19" id="returndate">
             </div>
             <div class="ds-filter-group">
                 <label>Filter Tahun Pembuatan</label>
@@ -83,51 +86,6 @@
             <button class="ds-btn-rent">Sewa Sekarang</button>
         </div>
     </div>
-
-    <div class="ds-car-card">
-        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop" alt="Honda HR-V" class="ds-car-image">
-        <div class="ds-car-info">
-            <div class="ds-car-name">Honda HR-V AT 2023</div>
-            <div class="ds-car-price">Harga: Rp. 900.000 / hari</div>
-            <button class="ds-btn-rent">Sewa Sekarang</button>
-        </div>
-    </div>
-
-    <div class="ds-car-card">
-        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop" alt="Toyota Avanza" class="ds-car-image">
-        <div class="ds-car-info">
-            <div class="ds-car-name">Toyota Avanza MT<br>2023</div>
-            <div class="ds-car-price">Harga: Rp. 550.000 / hari</div>
-            <button class="ds-btn-rent">Sewa Sekarang</button>
-        </div>
-    </div>
-
-    <div class="ds-car-card">
-        <img src="https://images.unsplash.com/photo-1549927681-0b673b8243ab?w=400&h=300&fit=crop" alt="Car 4" class="ds-car-image">
-        <div class="ds-car-info">
-            <div class="ds-car-name">Mitsubishi Xpander<br>2022</div>
-            <div class="ds-car-price">Harga: Rp. 450.000 / hari</div>
-            <button class="ds-btn-rent">Sewa Sekarang</button>
-        </div>
-    </div>
-
-    <div class="ds-car-card">
-        <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop" alt="Car 5" class="ds-car-image">
-        <div class="ds-car-info">
-            <div class="ds-car-name">Suzuki Ertiga AT<br>2021</div>
-            <div class="ds-car-price">Harga: Rp. 400.000 / hari</div>
-            <button class="ds-btn-rent">Sewa Sekarang</button>
-        </div>
-    </div>
-
-    <div class="ds-car-card">
-        <img src="https://images.unsplash.com/photo-1583267746897-620dc02f6cd7?w=400&h=300&fit=crop" alt="Car 6" class="ds-car-image">
-        <div class="ds-car-info">
-            <div class="ds-car-name">Toyota Innova Reborn<br>2020</div>
-            <div class="ds-car-price">Harga: Rp. 650.000 / hari</div>
-            <button class="ds-btn-rent">Sewa Sekarang</button>
-        </div>
-    </div>
 </div>
 <script>
     function toggleSidebar() {
@@ -145,10 +103,78 @@
 
     document.querySelectorAll('input[type="date"]')[0].value = pickupDate;
     document.querySelectorAll('input[type="date"]')[1].value = returnDate;
-
-    var jew = new JWTManager();
-    let x =  jew.validate();
-    if(!x.valid){
-
+    async function check(){
+            var jew = new JWTManager();
+            let x =  await jew.validate();
+            console.log(x)
+            if(!x.valid){
+                alert('your session has been expired')
+                window.location.href = '/login';
+            }
+            else {
+                const elements = document.querySelectorAll('.nav-button');
+                elements.forEach(element => {
+                    element.style.display = 'none';
+                });
+                const result = await core.fetchAvailableCar(document.getElementById("startdate").value, document.getElementById('returndate').value)
+                console.log(result)
+                document.getElementById("sambutan").style.display = 'block'
+                loadCarCards(result)
+            }
     }
+    function formatPrice(price) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(price);
+    }
+
+    function createCarCard(car) {
+        const card = document.createElement('div');
+        card.className = 'ds-car-card';
+        let link = car.images.length > 0 ? car.images[0].imageLink : ''
+        card.innerHTML = `
+            <img src="${link}" alt="${car.alt}" class="ds-car-image">
+            <div class="ds-car-info">
+                <div class="ds-car-name">${car.name}<br>${car.year}</div>
+                <div class="ds-car-price">Harga: ${formatPrice(car.pricePerDay)} / hari</div>
+                <button class="ds-btn-rent" data-car="${car.name}">Sewa Sekarang</button>
+            </div>
+        `;
+
+        return card;
+    }
+
+    function loadCarCards(carList) {
+        const grid = document.querySelector('.ds-car-grid');
+
+        grid.innerHTML = '';
+
+        carList.forEach(car => {
+            const card = createCarCard(car);
+            grid.appendChild(card);
+        });
+
+        attachRentListeners();
+    }
+
+    function attachRentListeners() {
+        const rentButtons = document.querySelectorAll('.ds-btn-rent');
+
+        rentButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const carName = this.getAttribute('data-car');
+                handleRent(carName);
+            });
+        });
+    }
+
+    function handleRent(carName) {
+        alert(`Anda memilih untuk menyewa: ${carName}`);
+    }
+
+   
+    check()
+
 </script>

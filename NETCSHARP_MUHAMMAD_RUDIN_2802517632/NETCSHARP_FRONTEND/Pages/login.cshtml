@@ -54,7 +54,7 @@
     function okeGas(){
        var gas =  login(document.getElementById("username").value, document.getElementById("password").value)
        if(gas.status == false){
-           alert('your session is expired')
+           alert(gas.message)
        }
        
     }

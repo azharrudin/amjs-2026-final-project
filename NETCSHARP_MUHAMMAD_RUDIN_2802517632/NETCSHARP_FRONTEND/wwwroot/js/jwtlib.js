@@ -41,8 +41,8 @@
 
         const res = await fetch(this.validateEndpoint, init);
 
-        if (!res.ok) return { valid: false, status: res.status, message: res.text() };
-        return { valid: true, status: res.status, message: res.text() };
+        return { valid: res.text(), status: res.status};
+    
      
     }
 
