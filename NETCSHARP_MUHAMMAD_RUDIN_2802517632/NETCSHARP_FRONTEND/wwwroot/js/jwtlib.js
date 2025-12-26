@@ -30,6 +30,13 @@
     async validate() {
         const token = this._getCookie(this.cookieName);
         console.log(token)
+        if (token == null) {
+            alert("session expired")
+            return {
+                valid: false,
+                status: null
+            }
+        }
         const init = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -40,8 +47,9 @@
         };
 
         const res = await fetch(this.validateEndpoint, init);
-
-        return { valid: res.text(), status: res.status};
+        const json = await res.json()
+        console.log(json)
+        return { valid: json.validation, status: res.status, name: json.username};
     
      
     }

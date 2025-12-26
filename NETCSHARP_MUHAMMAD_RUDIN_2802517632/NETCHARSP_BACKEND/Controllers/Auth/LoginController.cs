@@ -55,7 +55,7 @@ namespace NETCHARSP_BACKEND.Controllers.Auth
                 return StatusCode(500, new { message = "Failed to create JWT.", detail = ex.Message });
             }
 
-            return Ok(new { message = "Login successful.", token = jwt });
+            return Ok(new { message = "Login successful.", token = jwt, name = customer.Name, email = customer.Email });
         }
 
    

@@ -1,0 +1,172 @@
+﻿.rt-body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ede7f6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.rt-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.rt-title {
+    text-align: center;
+    color: #2d3748;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.rt-carousel {
+    position: relative;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+}
+
+.rt-carousel-inner {
+    position: relative;
+    width: 100%;
+    padding-top: 66.67%;
+    overflow: hidden;
+}
+
+.rt-carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+    .rt-carousel-item.rt-active {
+        opacity: 1;
+    }
+
+    .rt-carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.rt-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    z-index: 10;
+}
+
+    .rt-carousel-btn:hover {
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+.rt-carousel-btn-prev {
+    left: 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.rt-carousel-btn-next {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+}
+
+.rt-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.rt-card-title {
+    color: #2d3748;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.rt-info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rt-info-row {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+    .rt-info-row:last-child {
+        border-bottom: none;
+    }
+
+.rt-info-label {
+    padding: 15px 10px;
+    font-weight: 600;
+    color: #4a5568;
+    width: 40%;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+.rt-info-value {
+    padding: 15px 10px;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+.rt-btn-rent {
+    width: 100%;
+    padding: 16px;
+    margin-top: 25px;
+    background: linear-gradient(135deg, #fbb6ce 0%, #f687b3 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(251, 182, 206, 0.4);
+}
+
+    .rt-btn-rent:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(251, 182, 206, 0.5);
+    }
+
+    .rt-btn-rent:active {
+        transform: translateY(0);
+    }
+
+@media (max-width: 600px) {
+    .rt-container {
+        padding: 0;
+    }
+
+    .rt-card {
+        padding: 20px;
+    }
+
+    .rt-title {
+        font-size: 24px;
+    }
+
+    .rt-info-label,
+    .rt-info-value {
+        font-size: 13px;
+        padding: 12px 8px;
+    }
+}

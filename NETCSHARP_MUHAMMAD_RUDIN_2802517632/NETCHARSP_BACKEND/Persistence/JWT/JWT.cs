@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using NETCHARSP_BACKEND.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,24 +8,34 @@ namespace NETCHARSP_BACKEND.Persistence.JWT
 {
     public class TokenValidationRequest
     {
-        public string Token { get; set; }
+        public required string Token { get; set; }
+    }
+
+    // New DTO to return email and username (or null if invalid)
+    public class TokenValidationResponse
+    {
+        public string? Email { get; set; }
+        public string? Username { get; set; }
+        public bool validation { get; set; }
+        public string userid { get; set; }
     }
 
     public class JWT
     {
-        private readonly AppDBContext _context;
+        private readonly AppDBContext? _context;
         private readonly IConfiguration _config;
         public JWT(IConfiguration config)
         {
-          
             _config = config;
         }
+
         private int GetJwtExpiryMinutes()
         {
             if (int.TryParse(_config["Jwt:ExpireMinutes"], out var minutes))
                 return Math.Max(1, minutes);
-            return 60; // default
+            return 60;
         }
+
         public string CreateJwtToken(MsCustomer customer)
         {
             var key = _config["Jwt:Key"];
@@ -44,6 +53,8 @@ namespace NETCHARSP_BACKEND.Persistence.JWT
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customer.CustomerId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, customer.Email ?? string.Empty),
+                // Include username so it can be returned on validation
+                new Claim(JwtRegisteredClaimNames.UniqueName, customer.Name ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -59,10 +70,10 @@ namespace NETCHARSP_BACKEND.Persistence.JWT
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public bool ValidateToken([FromBody] TokenValidationRequest token)
+        public TokenValidationResponse? ValidateToken(TokenValidationRequest token)
         {
-            if (string.IsNullOrWhiteSpace(token.Token))
-                return false;
+            if (token == null || string.IsNullOrWhiteSpace(token.Token))
+                return null;
 
             try
             {
@@ -71,11 +82,10 @@ namespace NETCHARSP_BACKEND.Persistence.JWT
                 var audience = _config["Jwt:Audience"];
 
                 if (string.IsNullOrWhiteSpace(key))
-                    return false;
+                    return null;
 
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var securityKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(key));
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
                 var parameters = new TokenValidationParameters
                 {
@@ -92,18 +102,42 @@ namespace NETCHARSP_BACKEND.Persistence.JWT
                     ClockSkew = TimeSpan.Zero
                 };
 
-                tokenHandler.ValidateToken(token.Token, parameters, out _);
-                return true;
+                // Validate and get principal
+                var principal = tokenHandler.ValidateToken(token.Token, parameters, out _);
+                if (principal == null)
+                    return null;
+
+                // Extract email and username from claims with safe fallbacks
+                var email = principal.FindFirst(JwtRegisteredClaimNames.Email)?.Value
+                            ?? principal.FindFirst(ClaimTypes.Email)?.Value;
+
+                var userid = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                            ?? principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var username = principal.FindFirst(JwtRegisteredClaimNames.UniqueName)?.Value
+                               ?? principal.FindFirst(ClaimTypes.Name)?.Value
+                               ?? principal.FindFirst("name")?.Value
+                               ?? principal.FindFirst("preferred_username")?.Value
+                               ?? principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value; 
+
+                
+
+                return new TokenValidationResponse
+                {
+                    Email = string.IsNullOrWhiteSpace(email) ? null : email,
+                    Username = string.IsNullOrWhiteSpace(username) ? null : username,
+                    userid = string.IsNullOrWhiteSpace(userid) ? null : userid,
+                    validation = string.IsNullOrWhiteSpace(username) ? false : true,
+                };
             }
             catch
             {
-                return false;
+                return new TokenValidationResponse
+                {
+                    Email = null,
+                    Username = null,
+                    validation = false
+                };
             }
         }
-
-       
-
-   
     }
-
 }

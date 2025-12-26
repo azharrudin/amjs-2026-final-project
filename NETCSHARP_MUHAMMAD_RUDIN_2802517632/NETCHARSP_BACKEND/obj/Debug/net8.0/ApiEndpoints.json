@@ -47,7 +47,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Boolean",
+        "Type": "NETCHARSP_BACKEND.Persistence.JWT.TokenValidationResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -72,6 +72,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NETCHARSP_BACKEND.Controllers.Transactions.GetCarController",
+    "Method": "GetCar",
+    "RelativePath": "api/v1/cars/get",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "NETCHARSP_BACKEND.Models.DTO.GetCarRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "NETCHARSP_BACKEND.Models.DTO.GetCarResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "NETCHARSP_BACKEND.Controllers.Transactions.AddRental",

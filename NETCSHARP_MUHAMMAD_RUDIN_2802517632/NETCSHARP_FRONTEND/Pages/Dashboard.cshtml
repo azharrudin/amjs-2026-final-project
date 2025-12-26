@@ -119,6 +119,7 @@
                 const result = await core.fetchAvailableCar(document.getElementById("startdate").value, document.getElementById('returndate').value)
                 console.log(result)
                 document.getElementById("sambutan").style.display = 'block'
+                document.getElementById("sambutan").innerHTML = 'Hai, ' + x.name
                 loadCarCards(result)
             }
     }

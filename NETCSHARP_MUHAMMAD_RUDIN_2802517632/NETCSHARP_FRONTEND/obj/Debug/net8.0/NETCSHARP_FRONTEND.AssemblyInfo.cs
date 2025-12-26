@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NETCSHARP_FRONTEND")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0501f4960d1253f06c125be1b21862aa1555269b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+48e86f143c697c280aebe636fefa897f59dc15f2")]
 [assembly: System.Reflection.AssemblyProductAttribute("NETCSHARP_FRONTEND")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NETCSHARP_FRONTEND")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

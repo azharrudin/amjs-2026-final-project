@@ -17,7 +17,7 @@ namespace NETCHARSP_BACKEND.Controllers.Auth
         }
         [HttpPost]
         [Route("validation")]
-        public bool Validate([FromBody] TokenValidationRequest token)
+        public TokenValidationResponse Validate([FromBody] TokenValidationRequest token)
         {
             return _jwt.ValidateToken(token);
         }
