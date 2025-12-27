@@ -25,11 +25,11 @@ namespace NETCHARSP_BACKEND.Models
 
         [Required]
         [Column("rental_date")]
-        public DateTimeOffset RentalDate { get; set; }
+        public DateTime RentalDate { get; set; }
 
         [Required]
         [Column("return_date")]
-        public DateTimeOffset ReturnDate { get; set; }
+        public DateTime ReturnDate { get; set; }
 
         // Navigation properties
         [ForeignKey(nameof(CustomerId))]

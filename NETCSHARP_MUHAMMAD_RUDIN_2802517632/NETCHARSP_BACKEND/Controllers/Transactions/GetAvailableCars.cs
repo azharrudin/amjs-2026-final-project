@@ -52,5 +52,41 @@ namespace NETCHARSP_BACKEND.Controllers.Transactions
 
             return Ok(availableCars);
         }
+        [HttpPost]
+        [Route("available-year")]
+        public IActionResult GetAvailableCarsListByYear([FromBody] GetAvailableCarRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var start = request.StartDate;
+            var end = request.EndDate;
+
+            if (start > end)
+                return BadRequest(new { message = "StartDate must be earlier than or equal to EndDate." });
+
+            var availableCars = _context.MsCar
+                        .Where(car => car.Status)
+                        .Where(car => car.Year == request.year)
+                        .Where(car => !car.Rentals.Any(r =>
+
+                            r.RentalDate <= end && r.ReturnDate >= start
+                        ))
+                        .Select(car => new
+                        {
+                            car.CarId,
+                            car.Name,
+                            car.Model,
+                            car.Year,
+                            car.LicensePlate,
+                            car.NumberOfCarSeats,
+                            car.Transmission,
+                            car.PricePerDay,
+                            car.Images
+                        })
+                        .ToList();
+
+            return Ok(availableCars);
+        }
     }
 }

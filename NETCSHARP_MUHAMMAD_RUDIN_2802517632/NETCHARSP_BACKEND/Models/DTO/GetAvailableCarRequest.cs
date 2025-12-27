@@ -7,11 +7,14 @@ namespace NETCHARSP_BACKEND.Models.DTO
     public class GetAvailableCarRequest : IValidatableObject
     {
         [Required]
-        public DateTimeOffset StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required]
-        public DateTimeOffset EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
+        public int year { get; set; }
+
+        public string? orderBy { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (EndDate < StartDate)

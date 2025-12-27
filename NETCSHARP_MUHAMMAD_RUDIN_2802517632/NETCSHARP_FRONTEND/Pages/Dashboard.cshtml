@@ -49,7 +49,7 @@
             </div>
             <div class="ds-filter-group">
                 <label>Filter Tahun Pembuatan</label>
-                <select>
+                <select id="year">
                     <option>Semua Tahun</option>
                     <option>2023</option>
                     <option>2022</option>
@@ -59,7 +59,7 @@
                 </select>
             </div>
             <div class="ds-filter-group" style="display: flex; align-items: flex-end;">
-                <button class="ds-btn-filter">Cari</button>
+                <button class="ds-btn-filter" onclick="checkYear()">Cari</button>
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@
     // Set default dates
     const today = new Date();
     const pickupDate = today.toISOString().split('T')[0];
-    const returnDate = new Date(today.setDate(today.getDate() + 3)).toISOString().split('T')[0];
+    const returnDate = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0];
 
     document.querySelectorAll('input[type="date"]')[0].value = pickupDate;
     document.querySelectorAll('input[type="date"]')[1].value = returnDate;
@@ -123,6 +123,30 @@
                 loadCarCards(result)
             }
     }
+    async function checkYear(){
+            var jew = new JWTManager();
+            let x =  await jew.validate();
+            console.log(x)
+            if(!x.valid){
+                alert('your session has been expired')
+                window.location.href = '/login';
+            }
+            else {
+                const elements = document.querySelectorAll('.nav-button');
+                elements.forEach(element => {
+                    element.style.display = 'none';
+                });
+                const result = await core.fetchAvailableCarByYear(
+                    document.getElementById("startdate").value, 
+                    document.getElementById('returndate').value, 
+                    document.getElementById('year').value
+                )
+                console.log(result)
+                document.getElementById("sambutan").style.display = 'block'
+                document.getElementById("sambutan").innerHTML = 'Hai, ' + x.name
+                loadCarCards(result)
+            }
+    }
     function formatPrice(price) {
         return new Intl.NumberFormat('id-ID', {
             style: 'currency',
@@ -140,7 +164,7 @@
             <div class="ds-car-info">
                 <div class="ds-car-name">${car.name}<br>${car.year}</div>
                 <div class="ds-car-price">Harga: ${formatPrice(car.pricePerDay)} / hari</div>
-                <button class="ds-btn-rent" data-car="${car.name}">Sewa Sekarang</button>
+                <button class="ds-btn-rent" data-id="${car.carId}"  data-car="${car.name}">Sewa Sekarang</button>
             </div>
         `;
 
@@ -165,14 +189,16 @@
 
         rentButtons.forEach(button => {
             button.addEventListener('click', function() {
-                const carName = this.getAttribute('data-car');
-                handleRent(carName);
+                const carId = this.getAttribute('data-id');
+                handleRent(carId);
             });
         });
     }
 
-    function handleRent(carName) {
-        alert(`Anda memilih untuk menyewa: ${carName}`);
+    function handleRent(carId) {
+        const pdate =  document.querySelectorAll('input[type="date"]')[0].value
+        const rdate =  document.querySelectorAll('input[type="date"]')[1].value
+        window.location.href = '/rent?id=' + carId + "&start=" + pdate + "&end=" + rdate
     }
 
    

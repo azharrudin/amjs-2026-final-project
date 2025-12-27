@@ -98,7 +98,7 @@ PSEUDOCODE / PLAN (detailed):
         const el = document.getElementById(id);
         if (el) el.innerText = text ?? '-';
     }
-
+    var token_login = null;
     async function check(){
             var jew = new JWTManager();
             let x =  await jew.validate();
@@ -110,7 +110,7 @@ PSEUDOCODE / PLAN (detailed):
             else {
                 const res = await core.fetchCar(@Html.Raw(idJson)) // btw ini bahaya soalnya ada resiko kena reflective smth xss (tapi udah diserialize sih)
                 console.log(res)
-                populateFromRes(res);
+                populateFromRes(res, x);
                 initCarousel(res.images)
                 showSlide(0)
             }
@@ -157,11 +157,14 @@ PSEUDOCODE / PLAN (detailed):
         showSlide(currentSlide + direction);
     }
 
-    function handleRent() {
-        if (urlId) {
+    async function handleRent() {
+             var jew = new JWTManager();
+                 const tok = jew._getCookie("jwt_token")
+        if (urlId && tok != undefined || tok != null ){
             alert('Terima kasih! Permintaan sewa mobil (id=' + urlId + ') Anda akan diproses.');
+                 await core.rentCar(urlId, tok, queryStart, queryEnd )
         } else {
-            alert('Terima kasih! Permintaan sewa mobil Anda akan diproses.');
+            alert('Tidak ada mobil dipilih.');
         }
     }
 
@@ -202,7 +205,7 @@ PSEUDOCODE / PLAN (detailed):
         showSlide(0);
     }
 
-    function populateFromRes(res) {
+    function populateFromRes(res, datalogin) {
         if (!res || typeof res !== 'object') {
             return;
         }
@@ -215,52 +218,22 @@ PSEUDOCODE / PLAN (detailed):
         setText('car-name', name);
         setText('car-transmission', transmission);
         setText('car-passengers', passengers);
+        setText('renter-name', datalogin.name);
+        const diffInMs = (new Date(queryEnd)) - (new Date(queryStart));
+        const days = diffInMs / (1000 * 60 * 60 * 24);
 
-        const startStr = (queryStart && queryStart !== '""') ? JSON.parse(queryStart) : (res.startDate ?? res.rentalStart ?? '');
-        const endStr = (queryEnd && queryEnd !== '""') ? JSON.parse(queryEnd) : (res.endDate ?? res.rentalEnd ?? '');
 
-        let displayDates = '-';
-        let days = null;
-        try {
-            if (startStr && endStr) {
-                const s = new Date(startStr);
-                const e = new Date(endStr);
-                if (!isNaN(s) && !isNaN(e)) {
-                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                    const sText = s.toLocaleDateString('id-ID', options);
-                    const eText = e.toLocaleDateString('id-ID', options);
-                    displayDates = sText + ' sampai ' + eText;
 
-                    // compute difference in days (inclusive)
-                    const diffMs = e.setHours(0,0,0,0) - s.setHours(0,0,0,0);
-                    days = Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1;
-                    if (days <= 0) days = 1;
-                } else {
-                    // fallback to raw strings
-                    displayDates = `${startStr} sampai ${endStr}`;
-                }
-            } else if (startStr || endStr) {
-                displayDates = (startStr || endStr);
-                days = 1;
-            } else if (res.startDate && res.endDate) {
-                displayDates = `${res.startDate} sampai ${res.endDate}`;
-                days = 1;
-            }
-        } catch (err) {
-            console.warn('date parse error', err);
-            displayDates = (startStr || '-') + ' sampai ' + (endStr || '-');
-        }
+            let displayDates =  queryStart.replaceAll("-", "/") + '-' + queryEnd.replaceAll("-", "/");
 
         setText('rental-dates', displayDates);
 
-        // Price per day and total price calculation
         const pricePerDay = (typeof res.pricePerDay === 'number') ? res.pricePerDay : (typeof res.price === 'number' ? res.price : (res.pricePerDay ? Number(res.pricePerDay) : NaN));
         if (isFinite(pricePerDay)) {
             setText('price-day', formatCurrencyIDR(pricePerDay) + ' / hari');
             const total = (days && isFinite(days)) ? pricePerDay * days : NaN;
             setText('total-price', isFinite(total) ? formatCurrencyIDR(total) : '-');
         } else {
-            // fallback: if res.priceString present
             if (res.priceString) {
                 setText('price-day', res.priceString + ' / hari');
             } else {

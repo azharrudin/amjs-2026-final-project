@@ -67,6 +67,37 @@
         }
       }
     },
+    "/api/v1/cars/available-year": {
+      "post": {
+        "tags": [
+          "GetAvailableCars"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAvailableCarRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAvailableCarRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAvailableCarRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/cars/get": {
       "post": {
         "tags": [
@@ -177,6 +208,63 @@
         }
       }
     },
+    "/api/v1/rent-history": {
+      "post": {
+        "tags": [
+          "RentHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenValidationRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenValidationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenValidationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentHistoryResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentHistoryResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentHistoryResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/validation": {
       "post": {
         "tags": [
@@ -281,6 +369,14 @@
           "endDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderBy": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -324,6 +420,21 @@
           "license": {
             "type": "string",
             "nullable": true
+          },
+          "transmission": {
+            "type": "string",
+            "nullable": true
+          },
+          "nus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MsCarImages"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -343,6 +454,181 @@
           "password": {
             "minLength": 1,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MsCar": {
+        "type": "object",
+        "properties": {
+          "carId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "maxLength": 200,
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "maxLength": 100,
+            "type": "string",
+            "nullable": true
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "licensePlate": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "numberOfCarSeats": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "transmission": {
+            "maxLength": 100,
+            "type": "string",
+            "nullable": true
+          },
+          "pricePerDay": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "rentals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrRental"
+            },
+            "nullable": true
+          },
+          "maintenances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrMaintenance"
+            },
+            "nullable": true
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MsCarImages"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MsCarImages": {
+        "type": "object",
+        "properties": {
+          "imageCarId": {
+            "maxLength": 36,
+            "type": "integer",
+            "format": "int32"
+          },
+          "carId": {
+            "maxLength": 36,
+            "type": "integer",
+            "format": "int32"
+          },
+          "imageLink": {
+            "maxLength": 2000,
+            "type": "string",
+            "nullable": true
+          },
+          "car": {
+            "$ref": "#/components/schemas/MsCar"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MsCustomer": {
+        "required": [
+          "email",
+          "passwordHash"
+        ],
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "passwordHash": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
+          },
+          "driverLicenseNumber": {
+            "maxLength": 100,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MsEmployee": {
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "maxLength": 36,
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "maxLength": 200,
+            "type": "string",
+            "nullable": true
+          },
+          "position": {
+            "maxLength": 4000,
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "maxLength": 100,
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "maxLength": 36,
+            "type": "string",
+            "nullable": true
+          },
+          "maintenances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrMaintenance"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -386,18 +672,48 @@
         },
         "additionalProperties": false
       },
+      "RentHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "startdate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalDays": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalPrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RentRequest": {
         "required": [
           "carId",
-          "customerId",
           "rentalDate",
-          "returnDate"
+          "returnDate",
+          "token"
         ],
         "type": "object",
         "properties": {
-          "customerId": {
-            "type": "integer",
-            "format": "int32"
+          "token": {
+            "minLength": 1,
+            "type": "string"
           },
           "carId": {
             "type": "integer",
@@ -444,6 +760,83 @@
           "userid": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrMaintenance": {
+        "type": "object",
+        "properties": {
+          "maintenanceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maintenanceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "maxLength": 4000,
+            "type": "string",
+            "nullable": true
+          },
+          "cost": {
+            "type": "number",
+            "format": "double"
+          },
+          "carId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeId": {
+            "maxLength": 36,
+            "type": "string",
+            "nullable": true
+          },
+          "car": {
+            "$ref": "#/components/schemas/MsCar"
+          },
+          "employee": {
+            "$ref": "#/components/schemas/MsEmployee"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrRental": {
+        "required": [
+          "carId",
+          "customerId",
+          "rentalDate",
+          "returnDate"
+        ],
+        "type": "object",
+        "properties": {
+          "rentalId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "customerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "carId": {
+            "maxLength": 36,
+            "type": "integer",
+            "format": "int32"
+          },
+          "rentalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "returnDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/MsCustomer"
+          },
+          "car": {
+            "$ref": "#/components/schemas/MsCar"
           }
         },
         "additionalProperties": false

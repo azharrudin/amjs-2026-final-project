@@ -5,16 +5,16 @@ namespace NETCHARSP_BACKEND.Models.DTO
     public class RentRequest
     {
         [Required]
-        public int CustomerId { get; set; }
+        public string token { get; set; }
 
         [Required]
         public int CarId { get; set; }
 
         [Required]
-        public DateTimeOffset RentalDate { get; set; }
+        public DateTime RentalDate { get; set; }
 
         [Required]
-        public DateTimeOffset ReturnDate { get; set; }
+        public DateTime ReturnDate { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
