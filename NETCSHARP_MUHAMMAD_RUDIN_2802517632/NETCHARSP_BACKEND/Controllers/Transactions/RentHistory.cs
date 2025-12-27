@@ -59,6 +59,7 @@ namespace NETCHARSP_BACKEND.Controllers.Transactions
 
             var rentals = con.TrRental
     .AsNoTracking()
+    .Include(r => r.Car)
     .Where(r => r.CustomerId == userId)
     .OrderByDescending(r => r.RentalDate)
    
@@ -73,7 +74,7 @@ namespace NETCHARSP_BACKEND.Controllers.Transactions
 
                 var car = r.Car;
                 var daysDecimal = (returnDateUtc - rentalDateUtc).TotalDays;
-                var days = Math.Max(1, (int)Math.Ceiling(daysDecimal)); // at least 1 day
+                var days = Math.Max(1, (int)Math.Ceiling(daysDecimal)); 
                 var pricePerDay = car?.PricePerDay ?? 0m;
                 var totalPrice = pricePerDay * days;
 
@@ -84,6 +85,7 @@ namespace NETCHARSP_BACKEND.Controllers.Transactions
                     model = car?.Model ?? string.Empty,
                     totalDays = days.ToString(),
                     totalPrice = totalPrice.ToString("F2"),
+                    priceperday = pricePerDay,
                     paymentStatus = returnDateUtc <= now ? "COMPLETED" : "ONGOING"
                 };
             }).ToList();

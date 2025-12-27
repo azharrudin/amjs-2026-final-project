@@ -9,6 +9,77 @@ body {
     background-color: #f5f5f5;
 }
 
+
+
+.tb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tb-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .tb-table thead {
+        background: #f8f9fa;
+    }
+
+    .tb-table th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 13px;
+        color: #333;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    .tb-table td {
+        padding: 16px;
+        font-size: 14px;
+        color: #333;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .tb-table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .tb-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+.tb-status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tb-status-paid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.tb-status-unpaid {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+@media (max-width: 768px) {
+    .tb-container {
+        overflow-x: auto;
+    }
+
+    .tb-table {
+        min-width: 800px;
+    }
+}
 /* Header */
 .ds-header {
     background: linear-gradient(to right, #d8b3e6, #e8d4f3);

@@ -26,7 +26,27 @@
 
         return { ok: true };
     }
+    async register(credentials) {
+        const res = await fetch("http://localhost:5189/api/v1/auth/register", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
 
+        if (!res.ok) {
+            const json = await res.json();
+            return json
+        }
+
+        const ct = (res.headers.get('content-type') || '').toLowerCase();
+        if (ct.includes('application/json')) {
+            const json = await res.json();
+            if (json?.token) this._setCookie(this.cookieName, json.token, json.expiresIn);
+            return json;
+        }
+
+        return { ok: true };
+    }
     async validate() {
         const token = this._getCookie(this.cookieName);
         console.log(token)

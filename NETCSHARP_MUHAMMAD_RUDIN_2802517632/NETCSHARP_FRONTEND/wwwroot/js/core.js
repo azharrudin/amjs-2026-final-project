@@ -63,5 +63,21 @@
             return false
         }
         else return res.json()
+    },
+    fetchHistory: async function (token) {
+        const res = await fetch('http://localhost:5189/api/v1/rent-history', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                
+                "token": token, 
+                
+            }),
+        });
+
+        if (!res.ok) {
+            return false
+        }
+        else return res.json()
     }
 }
