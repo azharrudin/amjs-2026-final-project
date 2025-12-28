@@ -1,0 +1,111 @@
+﻿@page
+@model NETCSHARP_FRONTEND.Pages.AboutModel
+@{
+}
+<header class="ds-header">
+    <div class="ds-header-left ">
+        <button class="ds-menu-btn" onclick="toggleSidebar()">☰</button>
+        <div class="ds-logo">RentCar</div>
+    </div>
+    <div class="ds-header-right">
+        <button class="ds-btn-header ds-btn-login nav-button">Login</button>
+        <button class="ds-btn-header ds-btn-register nav-button">Registrasi</button>
+        <span id="sambutan" style="display: none;">
+            Hai
+        </span>
+    </div>
+</header>
+
+<!-- Sidebar -->
+<div class="ds-sidebar" id="sidebar">
+    <div class="ds-sidebar-header">
+        <button class="ds-close-btn" onclick="toggleSidebar()">✕</button>
+    </div>
+    <ul class="ds-sidebar-menu">
+        <li><a href="/dashboard">Home</a></li>
+        <li><a href="/history">Riwayat Penyewaan</a></li>
+        <li><a href="/about">Kontak Kami</a></li>
+    </ul>
+</div>
+<div style="
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 24px;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1f2937;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+">
+    <h2 style="
+        margin-bottom: 12px;
+        font-size: 28px;
+        color: #111827;
+        text-align: center;
+    ">
+        About Us
+    </h2>
+
+    <p style="
+        font-size: 15px;
+        line-height: 1.7;
+        text-align: justify;
+        margin-bottom: 12px;
+    ">
+        RentalCar adalah penyedia layanan sewa kendaraan yang berkomitmen untuk memberikan
+        pengalaman berkendara yang aman, nyaman, dan terpercaya. Kami menyediakan berbagai
+        pilihan mobil, mulai dari kendaraan harian hingga kebutuhan bisnis dan perjalanan jarak jauh.
+    </p>
+
+    <p style="
+        font-size: 15px;
+        line-height: 1.7;
+        text-align: justify;
+        margin-bottom: 12px;
+    ">
+        Dengan armada yang terawat, harga transparan, serta proses pemesanan yang mudah,
+        kami berfokus pada kepuasan pelanggan sebagai prioritas utama. Setiap kendaraan kami
+        telah melalui pemeriksaan rutin untuk memastikan performa dan keamanan.
+    </p>
+
+    <p style="
+        font-size: 15px;
+        line-height: 1.7;
+        text-align: justify;
+        margin-bottom: 0;
+    ">
+        RentalCar hadir sebagai solusi mobilitas Anda, baik untuk kebutuhan pribadi,
+        perjalanan keluarga, maupun operasional perusahaan.
+    </p>
+</div>
+<script>
+        async function check(){
+            var jew = new JWTManager();
+            let x =  await jew.validate();
+            console.log(x)
+            if(!x.valid){
+                alert('your session has been expired')
+            }
+            else {
+                const elements = document.querySelectorAll('.nav-button');
+                elements.forEach(element => {
+                    element.style.display = 'none';
+                });
+                const result = await core.fetchAvailableCar(document.getElementById("startdate").value, document.getElementById('returndate').value)
+                console.log(result)
+                document.getElementById("sambutan").style.display = 'block'
+                document.getElementById("sambutan").innerHTML = 'Hai, ' + x.name
+            }
+        }
+         function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        sidebar.classList.toggle('ds-active');
+        overlay.classList.toggle('ds-active');
+    }
+
+    toggleSidebar()
+            check()
+    
+</script>

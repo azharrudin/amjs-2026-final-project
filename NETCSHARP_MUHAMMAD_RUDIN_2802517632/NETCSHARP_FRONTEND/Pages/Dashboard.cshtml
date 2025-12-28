@@ -25,7 +25,7 @@
     <ul class="ds-sidebar-menu">
           <li><a href="/dashboard">Home</a></li>
         <li><a href="/history">Riwayat Penyewaan</a></li>
-        <li><a href="#">Kontak Kami</a></li>
+        <li><a href="/about">Kontak Kami</a></li>
     </ul>
 </div>
 
@@ -109,7 +109,6 @@
             console.log(x)
             if(!x.valid){
                 alert('your session has been expired')
-                window.location.href = '/login';
             }
             else {
                 const elements = document.querySelectorAll('.nav-button');

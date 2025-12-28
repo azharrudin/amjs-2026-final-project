@@ -26,7 +26,7 @@ namespace NETCHARSP_BACKEND.Controllers.Auth
         {
             if (request == null)
             {
-                return BadRequest(new { message = "Invalid request body." });
+                return BadRequest(new { message = "Invalid request body.", status = "invalid"});
             }
 
             if (!ModelState.IsValid)
@@ -38,12 +38,12 @@ namespace NETCHARSP_BACKEND.Controllers.Auth
             var exists = _context.Customers.AsNoTracking().Any(c => c.Email.ToLower() == normalizedEmail);
             if (exists)
             {
-                return Conflict(new { message = "Email is already registered." });
+                return Conflict(new { message = "Email is already registered.", status = "invalid"});
             }
 
             if (string.IsNullOrWhiteSpace(request.Password))
             {
-                return BadRequest(new { message = "Password is required." });
+                return BadRequest(new { message = "Password is required.", status = "invalid"});
             }
 
             

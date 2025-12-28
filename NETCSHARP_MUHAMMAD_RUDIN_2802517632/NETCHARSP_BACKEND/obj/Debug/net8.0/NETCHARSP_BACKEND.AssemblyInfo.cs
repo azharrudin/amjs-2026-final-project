@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NETCHARSP_BACKEND")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d771be0d580b2b33feffc6d2b26ffb0e8e3c016")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a75ffb3094d532b06b374a13f7f2257cd163ee0f")]
 [assembly: System.Reflection.AssemblyProductAttribute("NETCHARSP_BACKEND")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NETCHARSP_BACKEND")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

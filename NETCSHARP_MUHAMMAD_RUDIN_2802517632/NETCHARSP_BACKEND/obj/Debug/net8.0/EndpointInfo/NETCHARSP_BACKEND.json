@@ -695,6 +695,10 @@
             "type": "string",
             "nullable": true
           },
+          "priceperday": {
+            "type": "number",
+            "format": "double"
+          },
           "paymentStatus": {
             "type": "string",
             "nullable": true

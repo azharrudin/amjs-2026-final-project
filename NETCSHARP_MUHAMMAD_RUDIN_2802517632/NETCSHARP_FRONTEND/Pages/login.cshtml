@@ -35,9 +35,24 @@
     </div>
  </body>
  <script>
-
+    async function login(user, pass){
+        var jwt = new JWTManager();
+        var login = await jwt.login({
+              "email": user,
+              "password": pass
+        })
+        console.log(login)
+        if(login["token"] != undefined){
+               window.location.href = '/dashboard'
+        }
+        else {
+            alert(
+               login["message"]
+            )
+        }
+    }
     function okeGas(){
-       var gas = core
+       var gas =  login(document.getElementById("username").value, document.getElementById("password").value)
        if(gas.status == false){
            alert(gas.message)
        }
